@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102442">
+<title>中转图解指引 · 武汉天河国际机场</title>
+<style>
+:root {
+  color-scheme: light;
+  --ink: #102442;
+  --blue: #164bd0;
+  --muted: #536277;
+  --line: #ccd4df;
+  font: 100%/1.55 "Inter", "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+}
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+body { margin: 0; background: #f9fafc; color: var(--ink) }
+header { background: white; border-bottom: 1px solid var(--line) }
+.bar, main, footer { width: min(1240px, calc(100% - 8vw)); margin: auto }
+.bar { min-height: 80px; display: flex; align-items: center; gap: 17px }
+.wordmark { color: var(--ink); font: italic 800 2.05rem/1 Arial,sans-serif; letter-spacing: -.09em; padding-right: 4px }
+.brand { border-left: 1px solid var(--line); padding-left: 17px; display: grid; gap: 2px }
+.brand b { font-size: .96rem; letter-spacing: .10em }
+.brand small, .overline, .field-code { font: 600 .75rem/1.35 Arial,sans-serif; letter-spacing: .13em }
+.brand small { font-size: .68rem; color: var(--muted); letter-spacing: .07em }
+.status { flex-shrink: 0; white-space: nowrap; margin-left: auto; font-size: .83rem; color: var(--muted); display: flex; gap: 8px; align-items: center }
+.status::before { content: ""; width: 18px; height: 2px; background: #d09149 }
+main { padding: 26px 0 20px }
+.banner { position: relative; isolation: isolate; color: white; background: #193655; overflow: hidden; border-radius: 4px; min-height: clamp(330px,36vw,486px); display: flex; align-items: flex-end }
+.cover, .banner::after { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1 }
+.cover { object-fit: cover; object-position: 62% 64% }
+.banner::after { content: ""; background: linear-gradient(90deg,rgba(6,21,47,.8),rgba(8,25,52,.38) 43%,transparent 73%),linear-gradient(0deg,rgba(7,21,42,.64),transparent 52%) }
+.banner article { width: 100%; padding: clamp(28px,4vw,60px) }
+.overline { color: #425672; margin: 0; text-transform: uppercase }
+.banner .overline { color: #e2ebf8; display: flex; align-items: center; gap: 12px }
+.banner .overline::before { content: ""; width: 32px; height: 2px; background: #f0b267 }
+.route { display: flex; gap: clamp(12px,2vw,30px); align-items: center; margin: 11px 0 0; font: 500 clamp(4.8rem,9.5vw,8.3rem)/1 Arial,sans-serif; letter-spacing: -.07em }
+.route i { width: clamp(48px,6.8vw,94px); height: 3px; background: #f6bd78; position: relative }
+.route i::after { content: ""; position: absolute; right: 0; top: 50%; width: .17em; height: .17em; border: solid #f6bd78; border-width: 3px 3px 0 0; transform: translateY(-50%) rotate(45deg) }
+h1,h2,p { margin: 0 }
+h1 { font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 600; letter-spacing: .03em }
+.origin { display: flex; align-items: center; gap: 11px; margin-top: 24px; font-size: 1rem }
+.origin span { color: #dee6f1; border-right: 1px solid #94a2b3; padding-right: 11px }
+.lookup { padding: clamp(24px,3.5vw,50px); display: grid; grid-template-columns: 1fr 1.4fr; align-items: start; gap: 26px; border: 1px solid var(--line); border-top: 0; background: white }
+h2 { font-size: clamp(1.5rem,2.6vw,2.1rem); font-weight: 650; line-height: 1.35; margin: 5px 0 6px; letter-spacing: -.025em }
+.hint, .instruction, footer, .samples, .done p { color: var(--muted) }
+input,button { font: inherit }
+button { cursor: pointer; -webkit-tap-highlight-color: transparent }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #c06608; outline-offset: 3px }
+.inputrow { display: grid; grid-template-columns: minmax(100px,1fr) auto; gap: 10px }
+.field { position: relative; display: block }
+.field-code { position: absolute; top: 50%; transform: translateY(-50%); right: 16px; pointer-events: none; color: #677891 }
+input { width: 100%; min-height: 56px; color: var(--ink); border: 1px solid #9eacbf; background: #fcfdff; border-radius: 4px; padding: 8px 68px 8px 16px; font-size: 1.15rem }
+input::placeholder { color: #667790 }
+.primary,.secondary { min-height: 52px; padding: 10px 24px; font-weight: 630; border-radius: 4px; border: 1px solid transparent }
+.primary { color: white; background: var(--blue) }
+.primary:hover { background: #123d9c }
+.secondary { color: var(--ink); border-color: #bcc9d9; background: white }
+.secondary:hover { background: #eff3f9 }
+.samples { display: flex; align-items: center; gap: 8px; font-size: .88rem; margin-top: 6px }
+.sample,.textbtn { border: 0; min-height: 44px; color: var(--blue); background: transparent; font-weight: 650 }
+.sample { padding: 4px; font-variant-numeric: tabular-nums }
+.sample span { display: inline-block; padding: 1px 10px; border: 1px solid #cbd5e2; border-radius: 4px; background: #f8fafd }
+.textbtn { padding: 5px 0 5px 12px }
+.error:not(:empty) { color: #a13a17; margin: 7px 0 }
+footer { font-size: .85rem; padding: 0 0 24px }
+.guide { background: white; border: 1px solid var(--line); border-radius: 5px; overflow: hidden }
+.topline { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 8px 24px }
+.gateTag { font-weight: 650 }
+.stepLayout { display: grid; grid-template-columns: 1.65fr 1fr }
+.frame { container-type: inline-size; position: relative; align-self: center; background: #dee6ee; overflow: hidden }
+.frame img { display: block; width: 100%; height: auto }
+.imageTag { position: absolute; left: 12px; bottom: 12px; color: white; background: #0b1c34d9; font-size: .8rem; padding: 2px 9px; border-radius: 3px }
+.hotspot { position: absolute; transform: translate(-50%,-50%); display: grid; place-items: center; border: 3px solid white; border-radius: 50%; width: clamp(48px,6vw,64px); height: clamp(48px,6vw,64px); background: var(--blue); color: white; box-shadow: 0 0 0 5px #1d55c944,0 5px 14px #05173360; font: 600 2rem/1 Arial,sans-serif }
+.stepCopy { display: flex; flex-direction: column; justify-content: center; padding: clamp(22px,3vw,44px) }
+.progress { display: flex; gap: 4px; margin: 8px 0 20px }
+.progress span { height: 3px; width: 28px; background: #d7dfeb }
+.progress .filled { background: var(--blue) }
+.instruction { line-height: 1.7; margin: 4px 0 22px }
+.stepfoot { display: flex; gap: 8px }
+.stepfoot button { flex: 1; padding: 10px 9px }
+.done, #badLoc { max-width: 640px; padding: 54px 24px; text-align: center; background: white; border: 1px solid var(--line); margin: auto }
+.done .mark { display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 18px; border-radius: 50%; color: white; background: var(--blue); font-size: 1.5rem }
+.done button { margin-top: 18px }
+@media (max-width: 760px) {
+  .bar,main,footer { width: calc(100% - 32px) }
+  .bar { min-height: 60px; gap: 11px }
+  .brand { padding-left: 11px }
+  .wordmark { font-size: 1.75rem }
+  .brand b { font-size: .85rem }
+  .brand small { font-size: .60rem }
+  main { padding: 14px 0 }
+  .banner { min-height: clamp(232px,69vw,320px) }
+  .cover { object-position: 67% 58% }
+  .banner article { padding: 20px }
+  .route { font-size: clamp(4.2rem,15.5vw,6rem) }
+  .origin { margin-top: 17px; gap: 8px; font-size: .91rem }
+  .lookup { display: block; padding: 23px 20px 12px }
+  .controls { margin-top: 16px }
+  .inputrow { grid-template-columns: 1fr }
+  input,.inputrow .primary { min-height: 49px }
+  .samples { margin-top: 2px }
+  .stepLayout { display: flex; flex-direction: column }
+  .frame { width: 100% }
+  .topline { padding: 6px 15px }
+  .stepCopy { padding: 20px }
+  .progress { margin: 7px 0 12px }
+  .instruction { margin-bottom: 16px }
+}
+@media (max-width: 420px) { .brand small { display: none } }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <span class="wordmark" lang="en">WUH</span>
+    <div class="brand"><b>武汉天河国际机场</b><small lang="en">WUHAN TIANHE INTERNATIONAL AIRPORT</small></div>
+    <span class="status">演示版</span>
+  </div>
+</header>
+<main>
+<section id="home">
+  <div class="banner">
+    <img class="cover" src="images/terminal.jpg" alt="" fetchpriority="high">
+    <article>
+      <p class="overline" lang="en">Terminal transfer</p>
+      <div class="route" aria-label="T2 至 T3"><span>T2</span><i aria-hidden="true"></i><span>T3</span></div>
+      <h1>中转登机指引</h1>
+      <p class="origin"><span>扫码起点</span><strong>T2 中转无行李柜台</strong></p>
+    </article>
+  </div>
+  <form class="lookup" id="lookup" novalidate>
+    <div>
+      <p class="overline" lang="en">Boarding gate</p>
+      <h2><label for="gate">前往哪个登机口？</label></h2>
+      <p class="hint" id="hint">输入下一程登机牌上的登机口号码。</p>
+    </div>
+    <div class="controls">
+      <div class="inputrow">
+        <div class="field"><input id="gate" aria-describedby="hint samples error" placeholder="例如 52" autocomplete="off" maxlength="16" inputmode="numeric" enterkeyhint="go"><span class="field-code" aria-hidden="true">GATE</span></div>
+        <button class="primary" type="submit">查看路线</button>
+      </div>
+      <p class="error" id="error" role="alert"></p>
+      <div class="samples" id="samples">体验示例<button type="button" class="sample"><span>08</span></button><button type="button" class="sample"><span>52</span></button><button type="button" class="sample"><span>802</span></button></div>
+    </div>
+  </form>
+</section>
+<section class="guide" id="guide" hidden>
+  <div class="topline"><span class="gateTag" id="gateTag"></span><button class="textbtn" id="change">更换登机口</button></div>
+  <div class="stepLayout">
+    <div class="frame" id="frame">
+      <img id="photo" alt="">
+      <span class="imageTag" id="imageTag">原视频实拍</span><button class="hotspot" id="hotspot"></button>
+    </div>
+    <div class="stepCopy"><p class="overline" id="counter"></p><div class="progress" id="progress" aria-hidden="true"></div>
+      <h2 id="stepTitle" tabindex="-1"></h2><p class="instruction" id="instruction"></p>
+      <div class="stepfoot"><button class="secondary" id="prev">上一步</button><button class="primary" id="next">下一步</button></div>
+    </div>
+  </div>
+</section>
+<section id="done" class="panel done" hidden><span class="mark" aria-hidden="true">✓</span><div class="kicker">已看完本段实拍图解</div><h2 id="doneTitle" tabindex="-1"></h2><p>视频记录到登机口分区。请核对最新航显，再按现场标识前往具体登机口。</p><button class="primary" id="again">返回登机口查询</button></section>
+<section id="badLoc" class="panel" hidden><h2>暂未配置此扫码点位</h2><p>请使用 T2 中转无行李柜台的示例入口。</p><a href="?loc=T2_no_baggage">打开示例入口</a></section>
+</main><footer>路线图片取自原中转指引视频。现场通行方向和登机口以当日标识、航显为准。</footer>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+
+// 坐标为箭头中心在裁切后图片上的百分比；时间码对应原视频。
+const steps = {
+  towardT3: {image:'toward-t3', time:'00:08', title:'认准「3号航站楼」', text:'视频从通往 T3 的走廊拍起。看到蓝色「3号航站楼」直行牌，向前走。', x:54, y:74, arrow:'↑'},
+  turnT3: {image:'t3-turn', time:'00:10', title:'在墙面指示牌处向右', text:'找到「3号航站楼 Terminal 3」这一行，按它右侧的箭头走。', x:77, y:63, arrow:'→'},
+  escalator: {image:'escalator', time:'00:13', title:'乘扶梯上行', text:'乘图中的上行扶梯，到上层后继续看「3号航站楼」标识。', x:52, y:67, arrow:'↑'},
+  skywalk: {image:'skywalk', time:'00:20', title:'沿玻璃连廊直行', text:'左侧是落地窗，右侧是蓝色墙面。沿自动步道方向前行，留意前方的登机口分区牌。', x:47, y:73, arrow:'↑'},
+  firstLeft: {image:'first-left', time:'00:34', title:'在窗边向左，前往 01–14 区', text:'认准蓝牌上的「01–14」和左箭头。进入该区域后，按现场标牌寻找自己的登机口。', x:24, y:79, arrow:'←'},
+  firstRight: {image:'first-right', time:'00:34', title:'在窗边按标牌向右', text:'右侧标牌写着「15–61、801–804」。沿这个方向前往下一处分岔。', x:84, y:72, arrow:'→'},
+  secondLeft: {image:'second-split', time:'00:40', title:'在步道尽头向左', text:'左侧两行蓝牌分别指向 15–27 和 801–804。向左进入对应区域，再核对具体登机口。', x:26, y:76, arrow:'←'},
+  secondRight: {image:'second-split', time:'00:40', title:'在步道尽头向右', text:'找到「28–61」登机口指示牌，在这处分岔向右走。', x:76, y:76, arrow:'→'},
+  mid: {image:'mid-corridor', time:'01:03', title:'沿「31–61」直行', text:'认准头顶蓝牌上的「登机口 31–61」和向上箭头，沿通道继续前行。', x:47, y:77, arrow:'↑'},
+  floorAhead: {image:'floor-split', time:'01:19', title:'看地面箭头，向前直行', text:'在地面分岔标识处，36–49 号登机口沿正前方走。进入区域后，继续按现场标牌找登机口。', x:23, y:66, arrow:'↑'},
+  floorRight: {image:'floor-split', time:'01:19', title:'看地面箭头，向右转', text:'地面标识把 50–61 号登机口指向右侧，在这里转入右侧通道。', x:79, y:51, arrow:'→'},
+  lastHall: {image:'last-hall', time:'01:29', title:'沿「50–61」标牌继续走', text:'抬头核对蓝黄相间的吊牌。沿箭头方向前行，再根据现场标识寻找具体登机口。', x:48, y:67, arrow:'↑'}
+};
+const commonSteps = ['towardT3','turnT3','escalator','skywalk'];
+function routeFor(gate) {
+  if(gate >= 1 && gate <= 14) return [...commonSteps,'firstLeft'];
+  if((gate >= 15 && gate <= 27) || (gate >= 801 && gate <= 804))
+    return [...commonSteps,'firstRight','secondLeft'];
+  if(gate < 28 || gate > 61) return null;
+  const route = [...commonSteps,'firstRight','secondRight'];
+  if(gate >= 31) route.push('mid');
+  if(gate >= 36) route.push(gate <= 49 ? 'floorAhead' : 'floorRight');
+  if(gate >= 50) route.push('lastHall');
+  return route;
+}
+let currentGate = '', route = [], index = 0;
+function view(id) {
+  for(const name of ['home','guide','done','badLoc']) $(name).hidden = name !== id;
+  window.scrollTo(0,0);
+}
+function home() {
+  view('home');
+  $('error').textContent='';
+  $('gate').removeAttribute('aria-invalid');
+  $('gate').focus();
+}
+function render() {
+  const step=steps[route[index]], last=index===route.length-1;
+  view('guide');
+  $('gateTag').textContent='T3 · '+currentGate+' 登机口';
+  $('counter').textContent='步骤 '+(index+1)+' / '+route.length;
+  $('progress').replaceChildren(...route.map((_,i)=>{
+    const segment=document.createElement('span');
+    if(i<=index) segment.className='filled';
+    return segment;
+  }));
+  $('stepTitle').textContent=step.title;
+  $('instruction').textContent=step.text;
+  const photo=$('photo'), spot=$('hotspot');
+  $('imageTag').textContent='原视频实拍 · '+step.time;
+  photo.alt=step.title+'，原视频 '+step.time;
+  photo.onerror=()=>{$('imageTag').textContent='图片未加载，请参照本步文字';spot.hidden=true};
+  spot.hidden=false;
+  photo.src='images/walk/'+step.image+'.jpg';
+  spot.style.left=step.x+'%';
+  spot.style.top=step.y+'%';
+  spot.textContent=step.arrow;
+  spot.setAttribute('aria-label',last?'查看后续提示':'查看下一张路线图');
+  $('prev').textContent=index===0?'返回查询':'上一步';
+  $('next').textContent=last?'查看后续提示':'下一步';
+  $('stepTitle').focus({preventScroll:true});
+}
+function advance() {
+  if(index<route.length-1){index++;render();return}
+  view('done');
+  $('doneTitle').textContent='继续前往 '+currentGate+' 号登机口';
+  $('doneTitle').focus();
+}
+$('lookup').onsubmit=e=>{
+  e.preventDefault();
+  const input=$('gate').value.normalize('NFKC').trim();
+  const gate=/^(?:0?[1-9]|[1-9][0-9]|[1-9][0-9]{2})$/.test(input)?Number(input):0;
+  const result=routeFor(gate);
+  if(!result){
+    $('error').textContent=input?'本演示收录 01–61、801–804 号登机口的分区路线。':'请输入登机口号码，或点选下方示例。';
+    $('gate').setAttribute('aria-invalid','true');
+    $('gate').focus();
+    return;
+  }
+  currentGate=String(gate).padStart(2,'0');
+  route=result;
+  index=0;
+  render();
+};
+$('gate').oninput=()=>{$('error').textContent='';$('gate').removeAttribute('aria-invalid')};
+document.querySelectorAll('.sample').forEach(b=>b.onclick=()=>{$('gate').value=b.textContent;$('lookup').requestSubmit()});
+$('prev').onclick=()=>{if(index){index--;render()}else home()};
+$('next').onclick=advance;
+$('hotspot').onclick=advance;
+$('change').onclick=home;
+$('again').onclick=home;
+const loc=new URLSearchParams(location.search).get('loc');
+if(loc!==null && loc!=='T2_no_baggage') view('badLoc');
+</script>
+</body></html>
