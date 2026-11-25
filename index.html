@@ -84,6 +84,48 @@ footer { font-size: .85rem; padding: 0 0 24px }
 .done, #badLoc { max-width: 640px; padding: 54px 24px; text-align: center; background: white; border: 1px solid var(--line); margin: auto }
 .done .mark { display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 18px; border-radius: 50%; color: white; background: var(--blue); font-size: 1.5rem }
 .done button { margin-top: 18px }
+/* v2：全程示意图 */
+.tools { display: flex; align-items: center; gap: 6px }
+.toggle { border: 1px solid #bcc9d9; background: white; color: var(--ink); border-radius: 4px; min-height: 36px; padding: 4px 12px; font-size: .88rem; font-weight: 600 }
+.toggle[aria-pressed="true"] { color: white; background: var(--blue); border-color: var(--blue) }
+.overview { margin: 0; padding: 10px 24px 8px; border-bottom: 1px solid var(--line); background: #fbfcfe }
+.overview svg { display: block; width: 100%; max-width: 600px; height: auto; margin: auto }
+.overview figcaption { display: flex; justify-content: space-between; gap: 12px; max-width: 600px; margin: 2px auto 0; font-size: .76rem; color: var(--muted) }
+.net, .plan, .walked { fill: none; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round }
+.net { stroke: #d5dce6 }
+.plan { stroke: var(--blue); stroke-opacity: .4; stroke-dasharray: 1 12 }
+.walked { stroke: var(--blue) }
+.node { fill: white; stroke: var(--blue); stroke-width: 3 }
+.node.passed { fill: var(--blue) }
+.zone { font: 700 15px Arial, "PingFang SC", sans-serif; fill: #8a96a7 }
+.zone.dest { fill: #b4641b; font-weight: 800 }
+.minor { font: 500 12px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #8995a6 }
+.minor.strong { font: 800 15px Arial, sans-serif; fill: var(--ink) }
+.destmark { fill: white; stroke: #d09149; stroke-width: 4 }
+.here { fill: var(--blue); stroke: white; stroke-width: 3 }
+.halo { fill: var(--blue); transform-box: fill-box; transform-origin: center; animation: pulse 1.8s ease-out infinite }
+@keyframes pulse { from { transform: scale(.6); opacity: .45 } to { transform: scale(2); opacity: 0 } }
+@media (prefers-reduced-motion: reduce) { .halo { animation: none; opacity: .2 } }
+/* v2：下一处预告、步行模式、没看懂 */
+.nextup { display: flex; gap: 12px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 14px; margin: 0 0 18px; font-size: .95rem }
+.nextup b { flex-shrink: 0; font: 700 .72rem/1.4 Arial, "PingFang SC", sans-serif; letter-spacing: .13em; color: #8a5a22 }
+.nextup .arr { color: var(--blue); font-weight: 800; margin-right: 4px }
+.bigArrow { display: none }
+.walking .stepLayout { grid-template-columns: 1fr }
+.walking .frame { display: none }
+.walking .bigArrow { display: grid; place-items: center; padding-top: 22px; color: var(--blue); font: 700 clamp(6rem, 24vw, 11rem)/1 Arial, sans-serif }
+.walking .stepCopy { max-width: 640px; width: 100%; margin: auto }
+.stuck { align-self: flex-start; margin-top: 10px; padding-left: 0; font-size: .9rem }
+.helpbox { margin: 0 0 16px; padding: 12px 14px; border: 1px solid #f0d3ac; border-radius: 4px; background: #fff7ec; color: #5b3d17; font-size: .92rem }
+.helpbox button { margin-top: 6px; padding: 4px 0; min-height: 36px }
+#zoom { padding: 0; border: 0; background: transparent; max-width: 96vw; max-height: 92vh }
+#zoom::backdrop { background: #07152add }
+#zoom img { display: block; max-width: 96vw; max-height: 86vh }
+#zoom p { color: white; text-align: center; margin: 8px 0 0; font-size: .85rem }
+.stats { max-width: 640px; padding: 32px 24px; background: white; border: 1px solid var(--line); margin: auto }
+.stats table { width: 100%; border-collapse: collapse; margin: 16px 0; font-variant-numeric: tabular-nums }
+.stats th, .stats td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line) }
+.stats td:last-child, .stats th:last-child { text-align: right }
 @media (max-width: 760px) {
   .bar,main,footer { width: calc(100% - 32px) }
   .bar { min-height: 60px; gap: 11px }
@@ -105,6 +147,8 @@ footer { font-size: .85rem; padding: 0 0 24px }
   .stepLayout { display: flex; flex-direction: column }
   .frame { width: 100% }
   .topline { padding: 6px 15px }
+  .overview { padding: 8px 10px 6px }
+  .toggle { padding: 4px 9px }
   .stepCopy { padding: 20px }
   .progress { margin: 7px 0 12px }
   .instruction { margin-bottom: 16px }
@@ -148,18 +192,28 @@ footer { font-size: .85rem; padding: 0 0 24px }
   </form>
 </section>
 <section class="guide" id="guide" hidden>
-  <div class="topline"><span class="gateTag" id="gateTag"></span><button class="textbtn" id="change">更换登机口</button></div>
+  <div class="topline"><span class="gateTag" id="gateTag"></span><span class="tools"><button class="toggle" id="walkMode" aria-pressed="false">步行模式</button><button class="textbtn" id="change">更换登机口</button></span></div>
+  <figure class="overview">
+    <svg id="map" viewBox="0 0 520 186" role="img" aria-labelledby="mapLabel"><title id="mapLabel">全程示意图</title><g id="mapStatic"></g><g id="mapRoute"></g></svg>
+    <figcaption><span>全程示意图 · 不按比例</span><span id="mapNote"></span></figcaption>
+  </figure>
   <div class="stepLayout">
     <div class="frame" id="frame">
       <img id="photo" alt="">
       <span class="imageTag" id="imageTag">原视频实拍</span><button class="hotspot" id="hotspot"></button>
     </div>
+    <div class="bigArrow" id="bigArrow" aria-hidden="true"></div>
     <div class="stepCopy"><p class="overline" id="counter"></p><div class="progress" id="progress" aria-hidden="true"></div>
       <h2 id="stepTitle" tabindex="-1"></h2><p class="instruction" id="instruction"></p>
+      <div class="helpbox" id="helpbox" hidden><p id="helpText"></p><button class="textbtn" id="zoomBtn" type="button">放大本步照片</button></div>
+      <p class="nextup" id="nextup"><b id="nextLabel">下一处</b><span><span class="arr" id="nextArrow"></span><span id="nextText"></span></span></p>
       <div class="stepfoot"><button class="secondary" id="prev">上一步</button><button class="primary" id="next">下一步</button></div>
+      <button class="textbtn stuck" id="stuck" type="button">这步没看懂</button>
     </div>
   </div>
 </section>
+<dialog id="zoom"><img id="zoomImg" alt=""><p>轻点任意处关闭</p></dialog>
+<section id="stats" class="stats" hidden><h2>本机"没看懂"记录</h2><p class="hint">只统计这台设备上的点击。多台设备汇总需要接入后台，目前未接入。</p><table><thead><tr><th>步骤</th><th>标记次数</th></tr></thead><tbody id="statsBody"></tbody></table><button class="secondary" id="clearStats" type="button">清空本机记录</button> <a href="./">返回指引</a></section>
 <section id="done" class="panel done" hidden><span class="mark" aria-hidden="true">✓</span><div class="kicker">已看完本段实拍图解</div><h2 id="doneTitle" tabindex="-1"></h2><p>视频记录到登机口分区。请核对最新航显，再按现场标识前往具体登机口。</p><button class="primary" id="again">返回登机口查询</button></section>
 <section id="badLoc" class="panel" hidden><h2>暂未配置此扫码点位</h2><p>请使用 T2 中转无行李柜台的示例入口。</p><a href="?loc=T2_no_baggage">打开示例入口</a></section>
 </main><footer>路线图片取自原中转指引视频。现场通行方向和登机口以当日标识、航显为准。</footer>
@@ -194,9 +248,97 @@ function routeFor(gate) {
   if(gate >= 50) route.push('lastHall');
   return route;
 }
-let currentGate = '', route = [], index = 0;
+
+// ---- v2：全程示意图（示意画法，不按比例）----
+// 每一步在示意图上的位置（viewBox 520×186，主通道 y=95）
+const mapAt = {
+  towardT3:[70,95], turnT3:[115,95], escalator:[160,95], skywalk:[210,95],
+  firstLeft:[255,95], firstRight:[255,95], secondLeft:[320,95], secondRight:[320,95],
+  mid:[385,95], floorAhead:[440,95], floorRight:[440,95], lastHall:[440,132]
+};
+const START = [24,95];
+// 登机口分区：终点位置与标签位置
+const zones = {
+  A:  {label:'01–14',           end:[255,24],  tx:267, ty:30,  anchor:'start'},
+  B:  {label:'15–27 · 801–804', end:[320,24],  tx:332, ty:30,  anchor:'start'},
+  C28:{label:'28–30',           end:[352,95],  tx:352, ty:125, anchor:'middle'},
+  C31:{label:'31–35',           end:[412,95],  tx:412, ty:125, anchor:'middle'},
+  E:  {label:'36–49',           end:[500,95],  tx:500, ty:74,  anchor:'middle'},
+  D:  {label:'50–61',           end:[440,166], tx:454, ty:171, anchor:'start'}
+};
+function zoneFor(gate) {
+  if(gate <= 14) return 'A';
+  if(gate <= 27 || gate >= 801) return 'B';
+  if(gate <= 30) return 'C28';
+  if(gate <= 35) return 'C31';
+  if(gate <= 49) return 'E';
+  return 'D';
+}
+// 各步步行分钟数：待现场实测后填入（例如 towardT3: 2）。全部填齐前不显示时间。
+const walkMinutes = {};
+
+const SVG = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, text) {
+  const n = document.createElementNS(SVG, tag);
+  for(const k in attrs) n.setAttribute(k, attrs[k]);
+  if(text) n.textContent = text;
+  return n;
+}
+function buildMap() {
+  const g = $('mapStatic');
+  for(const d of ['M24 95 H500','M255 95 V24','M320 95 V24','M440 95 V166'])
+    g.append(el('path', {d, class:'net'}));
+  g.append(el('text', {x:10, y:72, class:'minor strong'}, 'T2'));
+  g.append(el('text', {x:10, y:125, class:'minor'}, '中转柜台'));
+  g.append(el('text', {x:160, y:125, class:'minor', 'text-anchor':'middle'}, '扶梯'));
+  g.append(el('text', {x:210, y:125, class:'minor', 'text-anchor':'middle'}, '玻璃连廊'));
+  for(const key in zones) {
+    const z = zones[key];
+    g.append(el('text', {x:z.tx, y:z.ty, class:'zone', 'text-anchor':z.anchor, id:'zone-'+key}, z.label));
+  }
+}
+function pts(list) { return list.map(p => p.join(',')).join(' ') }
+function drawRoute() {
+  const g = $('mapRoute'), zone = zones[currentZone];
+  const stepPts = route.map(k => mapAt[k]);
+  const all = [START, ...stepPts, zone.end];
+  const walked = [START, ...stepPts.slice(0, index + 1)];
+  g.replaceChildren(
+    el('polyline', {points:pts(all), class:'plan'}),
+    el('polyline', {points:pts(walked), class:'walked'}),
+    el('circle', {cx:zone.end[0], cy:zone.end[1], r:8, class:'destmark'})
+  );
+  route.forEach((k, i) => {
+    if(i === index) return;
+    const [x, y] = mapAt[k];
+    g.append(el('circle', {cx:x, cy:y, r:5, class:'node' + (i < index ? ' passed' : '')}));
+  });
+  const [hx, hy] = mapAt[route[index]];
+  g.append(el('circle', {cx:hx, cy:hy, r:10, class:'halo'}), el('circle', {cx:hx, cy:hy, r:9, class:'here'}));
+  for(const key in zones) $('zone-'+key).classList.toggle('dest', key === currentZone);
+  $('mapLabel').textContent = '全程示意图：共 ' + route.length + ' 步，当前第 ' + (index + 1) + ' 步，终点为 ' + zone.label + ' 号登机口分区';
+  $('mapNote').textContent = '终点分区 ' + zone.label;
+}
+
+// ---- v2：本机记录（步行模式偏好、"没看懂"次数）----
+const store = {
+  get(key, fallback) { try { const v = localStorage.getItem('t2t3.' + key); return v === null ? fallback : JSON.parse(v) } catch(e) { return fallback } },
+  set(key, value) { try { localStorage.setItem('t2t3.' + key, JSON.stringify(value)) } catch(e) {} }
+};
+let walking = store.get('walking', false);
+function applyWalking() {
+  $('guide').classList.toggle('walking', walking);
+  $('walkMode').setAttribute('aria-pressed', String(walking));
+}
+const HELP = '对照照片里箭头所指的蓝色标牌再看一次；仍不确定，请询问附近工作人员。';
+function showHelp(remembered) {
+  $('helpText').textContent = remembered ? '这一步在本机被标记过"没看懂"，已自动展开提示。' + HELP : HELP;
+  $('helpbox').hidden = false;
+}
+
+let currentGate = '', currentZone = '', route = [], index = 0;
 function view(id) {
-  for(const name of ['home','guide','done','badLoc']) $(name).hidden = name !== id;
+  for(const name of ['home','guide','done','badLoc','stats']) $(name).hidden = name !== id;
   window.scrollTo(0,0);
 }
 function home() {
@@ -209,7 +351,19 @@ function render() {
   const step=steps[route[index]], last=index===route.length-1;
   view('guide');
   $('gateTag').textContent='T3 · '+currentGate+' 登机口';
-  $('counter').textContent='步骤 '+(index+1)+' / '+route.length;
+  const left=route.length-index-1, rest=route.slice(index+1);
+  let count='步骤 '+(index+1)+' / '+route.length+' · '+(left?'还剩 '+left+' 步':'最后一步');
+  if(left && rest.every(k=>typeof walkMinutes[k]==='number'))
+    count+=' · 约 '+Math.max(1,Math.round(rest.reduce((s,k)=>s+walkMinutes[k],0)))+' 分钟';
+  $('counter').textContent=count;
+  const nextStep=steps[route[index+1]];
+  $('nextLabel').textContent=last?'之后':'下一处';
+  $('nextArrow').textContent=last?'':nextStep.arrow;
+  $('nextText').textContent=last?'按现场标牌找 '+currentGate+' 号登机口':nextStep.title;
+  $('bigArrow').textContent=step.arrow;
+  const marks=store.get('stuck',{})[route[index]]||0;
+  if(marks>=2) showHelp(true); else $('helpbox').hidden=true;
+  drawRoute();
   $('progress').replaceChildren(...route.map((_,i)=>{
     const segment=document.createElement('span');
     if(i<=index) segment.className='filled';
@@ -249,6 +403,7 @@ $('lookup').onsubmit=e=>{
     return;
   }
   currentGate=String(gate).padStart(2,'0');
+  currentZone=zoneFor(gate);
   route=result;
   index=0;
   render();
@@ -260,7 +415,38 @@ $('next').onclick=advance;
 $('hotspot').onclick=advance;
 $('change').onclick=home;
 $('again').onclick=home;
-const loc=new URLSearchParams(location.search).get('loc');
-if(loc!==null && loc!=='T2_no_baggage') view('badLoc');
+$('walkMode').onclick=()=>{walking=!walking;store.set('walking',walking);applyWalking()};
+$('stuck').onclick=()=>{
+  const marks=store.get('stuck',{}), key=route[index];
+  marks[key]=(marks[key]||0)+1;
+  store.set('stuck',marks);
+  showHelp(false);
+};
+$('zoomBtn').onclick=()=>{
+  const z=$('zoom');
+  $('zoomImg').src=$('photo').src;
+  $('zoomImg').alt=$('photo').alt;
+  if(z.showModal) z.showModal();
+};
+$('zoom').onclick=()=>$('zoom').close();
+function showStats() {
+  const marks=store.get('stuck',{});
+  const rows=Object.keys(steps).map(k=>{
+    const tr=document.createElement('tr');
+    const a=document.createElement('td'), b=document.createElement('td');
+    a.textContent=steps[k].title+'（原视频 '+steps[k].time+'）';
+    b.textContent=marks[k]||0;
+    tr.append(a,b);
+    return tr;
+  });
+  $('statsBody').replaceChildren(...rows);
+  view('stats');
+}
+$('clearStats').onclick=()=>{store.set('stuck',{});showStats()};
+buildMap();
+applyWalking();
+const params=new URLSearchParams(location.search), loc=params.get('loc');
+if(params.has('stats')) showStats();
+else if(loc!==null && loc!=='T2_no_baggage') view('badLoc');
 </script>
 </body></html>
